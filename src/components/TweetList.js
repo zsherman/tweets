@@ -11,7 +11,7 @@ import Tweet from './Tweet';
 import styles from './TweetList.css';
 
 export default class TweetList extends Component {
-  _cache = new CellMeasurerCache({ defaultHeight: 85, fixedWidth: true });
+  _cache = new CellMeasurerCache({ defaultHeight: 35, fixedWidth: true });
   _mostRecentWidth = 0;
   _resizeAllFlag = false;
 
@@ -41,11 +41,17 @@ export default class TweetList extends Component {
     }
   }
 
+  handleClearCache = () => {
+    this._cache.clearAll();
+    this._list.recomputeRowHeights();
+  }
+
   render() {
     const { fetchTweets, tweets } = this.props;
 
     return (
       <div className={styles.TweetList}>
+        <button onClick={this.handleClearCache}>Clear Cache</button>
         <InfiniteLoader
           isRowLoaded={this._isRowLoaded}
           loadMoreRows={fetchTweets}
